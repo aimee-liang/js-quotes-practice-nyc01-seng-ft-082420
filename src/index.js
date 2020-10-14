@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    /* Deliverable 1: Populate page with quotes with a GET request to http://localhost:3000/quotes?_embed=likes. */
-
     const baseUrl = "http://localhost:3000/quotes?_embed=likes"
 
+    /* Deliverable 1 */
     const getQuotes = () => {
         fetch(baseUrl)
             .then(response => response.json())
@@ -31,7 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         quoteList.append(quoteListLi)
     }
 
+    /* Deliverable 2: Submitting the form creates a new quote and adds it to the list of quotes without having to refresh the page.*/
 
+    const submitHandler = () => {
+
+    }
 
     getQuotes();
 
