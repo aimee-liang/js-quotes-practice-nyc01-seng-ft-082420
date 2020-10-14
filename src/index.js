@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const baseUrl = "http://localhost:3000/quotes?_embed=likes"
 
-    /* Deliverable 1 */
+/* Deliverable 1 */
     const getQuotes = () => {
         fetch(baseUrl)
             .then(response => response.json())
             .then(quotes => renderQuotes(quotes))
-            // .then(quotes => console.log(quotes))
     }
 
     const renderQuotes = quotes => {
@@ -17,20 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const quoteList = document.querySelector("#quote-list")
         const quoteListLi = document.createElement("li")
         quoteListLi.classList.add("quote-card")
-        // add a data set id
+        quoteListLi.dataset.id = quote.id
         quoteListLi.innerHTML = `
         <blockquote class="blockquote">
             <p class="mb-0">${quote.quote}</p>
             <footer class="blockquote-footer">${quote.author}</footer>
             <br>
             <button class='btn-success'>Likes: <span>0</span></button>
-            <button class='btn-danger'>Delete</button>
+            <button class='btn-danger' data-id=${quote.id}>Delete</button>
         </blockquote>
         `
         quoteList.append(quoteListLi)
     }
 
-    /* Deliverable 2: Submitting the form creates a new quote and adds it to the list of quotes without having to refresh the page.*/
+/* Deliverable 2: Submitting the form creates a new quote and adds it to the list of quotes without having to refresh the page.*/
 
     const submitHandler = () => {
         const form = document.querySelector("#new-quote-form")
@@ -62,7 +61,29 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+/* Deliverable 3: Clicking delete will delete the quote w/o refreshing */
+    const deleteHandler = () => {
+        document.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (e.target.matches(".btn-danger")){
+
+                const deleteBtn = e.target
+                const quoteCard = deleteBtn.parentElement.parentElement
+                const quoteCardId = quoteCard.dataset.id
+                
+                const options = {
+                    method: "DELETE"
+                }
+                
+                fetch(baseUrl + quoteCardId, options)
+                .then(response => response.json())
+                .then(quote => quoteCard.remove())
+            }
+        })
+    }
+
     getQuotes();
     submitHandler();
+    deleteHandler();
 
 })
