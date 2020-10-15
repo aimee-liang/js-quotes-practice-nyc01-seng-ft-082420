@@ -84,27 +84,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* Deliverable 4: Clicking like button will like w/o refreshing page */
     const likeHandler = () => {
-        const likesUrl = "http://localhost:3000/likes"
         document.addEventListener("click", (e) => {
             e.preventDefault();
             if (e.target.matches(".btn-success")){
-
+                
                 const likesBtn = e.target
+                const quoteId = likesBtn.parentElement.parentElement.dataId
                 const likesSpan = document.querySelector("span")
                 let likesNum = parseInt(likesSpan.textContent)
                 likesNum + 1
-
-                const newLikes = {likesNum: likesNum}
-
+                
                 const options = {
                     method: "PATCH",
                     headers: {
                         "content-type": "application/json",
                         "accept": "application/json"
                     },
-                    body: JSON.stringify(newLikes)
+                    body: JSON.stringify({quoteId: quoteId})
                 }
-
+                
+                const likesUrl = "http://localhost:3000/likes"
+                
                 fetch(likesUrl, options)
                 .then(response => response.json())
                 .then(quote => {renderQuote(quote)})
