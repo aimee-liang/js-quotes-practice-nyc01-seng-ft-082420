@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: "DELETE"
                 }
                 
-                fetch(baseUrl + quoteCardId, options)
+                fetch("http://localhost:3000/quotes/" + quoteCardId, options)
                 .then(response => response.json())
                 .then(quote => quoteCard.remove())
             }
